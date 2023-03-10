@@ -6,3 +6,9 @@ export const AppStyles = styled.div`
   grid-gap: 16px;
   padding-bottom: 24px;
 `;
+
+export const Greet = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+`;
