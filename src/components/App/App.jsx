@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Searchbar from '../Searchbar';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { GlobalStyles } from 'GlobalStyles';
 import Layout from 'Layout/Layout';
 import { AppStyles, Greet } from './App.styled';
@@ -25,11 +25,6 @@ class App extends Component {
   componentDidUpdate(_, prevState) {
     const searchWord = this.state.searchWord;
 
-    if (searchWord === '') {
-      toast.error('Please, enter your search request');
-      return;
-    }
-
     if (prevState.searchWord !== searchWord) {
       this.setState({ status: 'pending', images: [] });
       setTimeout(() => {
@@ -39,7 +34,7 @@ class App extends Component {
     }
 
     if (
-      prevState.searchWord === this.state.searchWord &&
+      prevState.searchWord === searchWord &&
       prevState.page !== this.state.page
     ) {
       this.setState({ status: 'pending' });
@@ -107,27 +102,22 @@ class App extends Component {
               request
             </Greet>
           )}
-          {status === 'pending' && <Loader />}
+
           {status === 'rejected' && <ErrorView />}
           {images.length > 0 && (
             <>
               <ImageGallery images={images} page={page} />
-
-              {status === 'pending' && <Loader />}
               {status === 'resolved' && page <= pages && (
                 <Button onLoad={this.handleLoad} />
               )}
             </>
           )}
+          {status === 'pending' && <Loader />}
         </AppStyles>
         <GlobalStyles />
       </Layout>
     );
   }
 }
-
-// App.propTypes = {
-//   search: PropTypes.string.isRequired,
-// };
 
 export default App;

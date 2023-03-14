@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -15,14 +16,22 @@ class Searchbar extends Component {
 
   handleInput = evt => {
     const value = evt.currentTarget.value.toLowerCase();
+
     this.setState({ value });
   };
 
   handleSubmit = evt => {
+    const word = this.state.value.trim();
+
     evt.preventDefault();
 
+    if (word.trim() === '') {
+      toast.error('Please, enter your search request');
+      return;
+    }
+
     this.setState({ value: '' });
-    this.props.onSearch(this.state.value.trim());
+    this.props.onSearch(word);
   };
 
   render() {
